@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="login-panel panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title" translate>Connection</h3>
+        </div>
+        <!-- Server Error Displays -->
+        <div class="alert alert-danger" ng-if="LoginController.loginError!=null">
+
+          {{LoginController.loginError | translate}}</div>
+        <div>
+          <a href="#!/signup">
+            <p class="text-right" style="margin:0px 7px 10px" translate>Create an account</p>
+          </a>
+        </div>
+        <center>
+          <a href="#"><img src="../images/iot-dashboard-webcom-logo.png" alt="IoT Dashboard WEBCOM" height="140" width="300"></a>
+        </center>
+        <div class="panel-body">
+          <!-- Log in Form -->
+          <form role="form" name="loginForm" novalidate ng-submit="loginForm.$valid && LoginController.login(LoginController.email, LoginController.password)">
+            <fieldset>
+              <div class="form-group">
+                <!-- Email field -->
+                <label for="mail" translate>E-mail *</label>
+                <input name="mail" type="email" class="form-control" ng-model="LoginController.email" required/>
+                <div ng-messages="loginForm.mail.$error">
+                  <div ng-messages-include="errors/errors.html" ng-if="loginForm.$submitted"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <!-- Password field -->
+                <label for="password" translate>Password *</label>
+                <input name="password" type="password" class="form-control" ng-model="LoginController.password" required ng-minlength="6" />
+                <div ng-messages="loginForm.password.$error">
+                  <div ng-messages-include="errors/errors.html" ng-if="loginForm.$submitted"></div>
+                </div>
+              </div>
+
+              <!-- Change this to a button or input when using this as a form -->
+              <button type="submit" class="btn btn-lg btn-success btn-block" translate>Sign in</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

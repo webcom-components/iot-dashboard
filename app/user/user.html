@@ -1,0 +1,208 @@
+<div my-header></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading" translate>
+          Modify profile
+        </div>
+        <!-- Server Error Password Change  -->
+        <div class="alert alert-danger" ng-if="userController.alertPasswordChangedError">
+          <p translate>{{userController.passwordError}}</p>
+        </div>
+
+        <!-- Successful Password Change -->
+        <div class="alert alert-success" ng-if="userController.alertPasswordChangedSuccess">
+          <p translate>Password changed with success</p>
+        </div>
+
+        <!-- Successful Save User Information -->
+        <div class="alert alert-success" ng-hide="!userController.alertSuccessSave">
+          <p translate>User information saved with success</p>
+        </div>
+
+        <!-- Save User Information error -->
+        <div class="alert alert-danger" ng-hide="!userController.alertErrorSave">
+          <p style="display:inline;">
+            <p style="display:inline;" translate>User information are not saved : </p>
+            <p style="display:inline;" translate>{{userController.saveDataError}}</p>
+          </p>
+        </div>
+
+        <div class="panel-body">
+          <!-- Log in Form -->
+          <div class="row">
+            <div class="col-lg-6">
+              <form role="form" name="userForm" novalidate ng-submit="(userForm.$valid) && (!userController.saveData(userController.surname, userController.name, userController.prop.value.toLowerCase()) ||  userController.disableSaveData)">
+
+                <fieldset>
+                  <div class="form-group">
+                    <!-- Email field -->
+                    <label for="mail">Email</label>
+                    <input name="mail" type="email" class="form-control" ng-model="userController.email" ng-disabled="true" />
+
+                  </div>
+                  <div class="form-group">
+                    <!-- Name field -->
+                    <label for="name" translate>Name</label>
+                    <input name="name" type="text" class="form-control" ng-model="userController.name" ng-disabled="userController.disableSaveData" ng-maxlength="30" required/>
+                    <div ng-messages="userForm.name.$error">
+                      <div ng-messages-include="errors/errors.html" ng-if="userForm.$submitted"></div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <!-- Surname field -->
+                    <label for="surname" translate>Surname</label>
+                    <input name="surname" type="text" class="form-control" ng-model="userController.surname" ng-disabled="userController.disableSaveData" ng-maxlength="30" required/>
+                    <div ng-messages="userForm.surname.$error">
+                      <div ng-messages-include="errors/errors.html" ng-if="userForm.$submitted"></div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label translate>Preferred Lang</label>
+                    <select class="form-control" ng-model="userController.prop.value" ng-options="v for v in userController.prop.values" ng-disabled="userController.disableSaveData">
+                                     </select>
+                  </div>
+
+
+
+
+                  <button type="button" class="btn btn-default btn-lg" ng-click="userController.resetData()" ng-disabled="userController.disableReset" translate>Reset</button>
+
+                  <!-- Modify datas button -->
+
+                  <button type="submit" class="btn btn-success btn-lg pull-right" translate>{{userController.modify}}</button>
+                </fieldset>
+              </form>
+            </div>
+
+            <div class="col-lg-6">
+              <form role="form" name="userPasswordForm" novalidate ng-submit="(userController.newPassword == userController.confirmNewPassword) && userPasswordForm.$valid && userController.changePassword(userController.currentPassword,userController.newPassword)">
+
+                <fieldset>
+                  <div class="form-group">
+                    <!-- Old Password field -->
+                    <label for="password" translate>Old password</label>
+                    <input name="password" type="password" class="form-control" ng-model="userController.currentPassword" ng-minlength="6" required/>
+                    <div ng-messages="userPasswordForm.password.$error">
+                      <div ng-messages-include="errors/errors.html" ng-if="userPasswordForm.$submitted"></div>
+                    </div>
+                  </div>
+                  <!-- New password field -->
+                  <div class="form-group">
+                    <label for="newPassword" translate>New password</label>
+                    <input class="form-control" name="newPassword" type="password" ng-model="userController.newPassword" ng-minlength="6" required />
+                    <div ng-messages="userPasswordForm.newPassword.$error">
+                      <div ng-messages-include="errors/errors.html" ng-if="userPasswordForm.$submitted"></div>
+                    </div>
+                  </div>
+
+                  <!-- Confirm New password field -->
+                  <div class="form-group">
+                    <label for="confirmNewPassword" translate>Confirm new password</label>
+                    <input class="form-control" name="confirmNewPassword" type="password" ng-model="userController.confirmNewPassword" ng-minlength="6" required />
+                    <div ng-messages="userPasswordForm.confirmNewPassword.$error">
+                      <div ng-messages-include="errors/errors.html" ng-if="userPasswordForm.$submitted"></div>
+                    </div>
+                    <p ng-show="!(userController.newPassword == userController.confirmNewPassword) && !userPasswordForm.confirmNewPassword.$error.required && !userPasswordForm.confirmNewPassword.$error.minlength && userPasswordForm.$submitted" translate>Different password</p>
+                  </div>
+
+                  <!-- Change password button -->
+                  <button type="submit" class="btn btn-warning btn-lg pull-right" translate>Change password</button>
+                </fieldset>
+              </form>
+
+              <fieldset>
+                <div class="form-group">
+                  <!-- Email field -->
+                  <label for="userId" translate>My-UID</label>
+                  <input name="userId" type="text" class="form-control" ng-model="userController.userId" ng-disabled="true" />
+
+                </div>
+                <!-- Request Invit button -->
+
+                <button ng-click="userController.requestInvitation()" class="btn btn-primary btn-lg pull-right" translate>Invitation request</button>
+
+              </fieldset>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title" translate>Spaces</h3>
+        </div>
+
+
+        <!-- Server Error Displays -->
+        <div class="alert alert-danger" ng-if="userController.createSpaceNotApplied">
+          <p style="display:inline" translate>Space not created : </p>
+          <p style="display:inline" translate>{{userController.createSpaceError}}</p>
+        </div>
+
+        <div class="alert alert-danger" ng-if="userController.userInfosError" translate>
+          <p>Please fill your information before creating a space</p>
+        </div>
+
+        <div class="alert alert-danger" ng-if="userController.leaveSpaceNotApplied">
+          <p style="display:inline;" translate>Leaving space failed : </p>
+          <p style="display:inline;" translate>{{userController.leaveSpaceError}}</p>
+        </div>
+
+        <!-- Server success displays -->
+
+        <div class="alert alert-success" ng-if="userController.createSpaceApplied && (userController.createSpaceError==null)" translate>
+          <p>Successfully created space</p>
+        </div>
+
+        <div class="alert alert-success" ng-if="userController.leaveSpaceApplied && (userController.createSpaceError==null)" translate>
+          <p>Successfully leaved space</p>
+        </div>
+
+        <div class="panel-body">
+          <div class="list-group scrollable-menu">
+            <div class="list-group-item" ng-repeat="userSpaceInfo in userController.userSpaceInfos">
+              <a href="#!/{{userSpaceInfo.id}}/sensors" ng-click="userController.spaceEdition(userSpaceInfo.id)">
+                                {{userSpaceInfo.spaceName}}
+                            </a>
+
+              <button type="button" class="btn btn-danger" style="position: absolute; top: 8%; right : 5%;" ng-click="userController.leaveSpaceConfirmation(userSpaceInfo.id)" translate>Leave</button>
+
+            </div>
+
+
+          </div>
+
+          <div class="list-group-item">
+            <form role="form" name="spaceForm" novalidate ng-submit="spaceForm.$valid && userController.createSpace(spaceName)">
+
+              <!-- Space name field -->
+              <div class="col-lg-10 input-group pull-left">
+                <input class="form-control" placeholder="{{'Space name *' | translate }}" name="spaceName" type="text" ng-model="spaceName" required/>
+              </div>
+
+              <!-- Space creation button -->
+              <div class="input-group" style="position: relative; left : 2%;">
+                <input type="submit" value="{{ 'Create your space' | translate }}" class="btn  btn-success" />
+              </div>
+
+              <div ng-messages="spaceForm.spaceName.$error">
+                <div ng-messages-include="errors/errors.html" ng-if="spaceForm.$submitted"></div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

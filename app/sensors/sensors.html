@@ -1,0 +1,67 @@
+<div my-header></div>
+
+<div class="container">
+
+  <div class="row" ng-if="sensorsController.dataSensorsExist!==null">
+    <div ng-repeat="sensor in sensorsController.dataSensors ">
+
+
+
+      <label>{{$index+1}}-</label><label translate>Gateway Type</label><label>: {{sensor.gatewayType}}</label>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th translate>Object ID</th>
+            <th translate>Object name</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th translate>Value</th>
+            <th translate>Action</th>
+            <th translate>Last update date</th>
+            <th ng-show="sensorsController.adminRule" translate>Modify</th>
+
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr ng-repeat="sensorData in sensor.objects">
+
+            <td>{{sensorData.id}}</td>
+            <td ng-if="sensorsController.sensorId==null || sensorsController.sensorId!==sensorData.id">{{sensorData.name}}</td>
+            <td ng-if="sensorsController.sensorId==sensorData.id"><input type="text" ng-model="sensorsController.nameToUpdate" />
+
+
+              <td ng-if="sensorsController.sensorId==null || sensorsController.sensorId!==sensorData.id">{{sensorData.description}}</td>
+
+              <td ng-if="sensorsController.sensorId==sensorData.id"><input type="text" ng-model="sensorsController.descriptionToUpdate"></td>
+              <td>{{sensorData.type}}</td>
+              <td>{{sensorData.value}} </td>
+              <td>
+
+                <button ng-show="sensorData.isAcuator && sensorData.type === 'light' && sensorData.value === '0'" type="button" class="btn btn-primary btn-sm" ng-click="sensorsController.switchLight(sensorData.gatewayId, sensorData.id, '  1')">On</button>
+
+                <button ng-show="sensorData.isAcuator && sensorData.type === 'light' && sensorData.value === '1'" type="button" class="btn btn-primary btn-sm" ng-click="sensorsController.switchLight(sensorData.gatewayId, sensorData.id, '0')">Off</button>
+                <span ng-show="!sensorData.isAcuator" translate>No action</span>
+              </td>
+              <td>{{sensorData.timestamp}}</td>
+              <td ng-show="sensorsController.adminRule">
+                <button type="button" class="btn btn-primary btn-sm" translate ng-click="sensorsController.editData(sensorData.id,sensorData.gatewayId,sensorData.dataActuatorsExist,sensorData.name,sensorData.description,sensorsController.nameToUpdate,sensorsController.descriptionToUpdate)"
+                  ng-disabled="sensorsController.disableUpdateData && sensorsController.sensorId!==sensorData.id">
+                  <span ng-if="sensorsController.sensorId==null || sensorsController.sensorId!==sensorData.id"  translate>Edit</span>
+                  <span ng-if="sensorsController.sensorId==sensorData.id" translate>Save</span></button>
+              </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+      <hr>
+    </div>
+  </div>
+  <div class="row" ng-if="sensorsController.dataSensorsExist===null">
+
+    <h3 translate>SORRY,NO DATA SENSORS AVAILABLE FOR THIS SPACE :(</h3>
+
+  </div>
+</div>

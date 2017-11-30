@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="login-panel panel panel-default">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"translate>Sign up</h3>
+                </div>
+
+                <!-- Server Error Displays -->
+                <div class="alert alert-danger" ng-if="SignupController.signupError!=null">
+                    <p translate>{{SignupController.signupError}}</p>
+                </div>
+
+                <div class="panel-body">
+
+                    <!-- Sign up Form -->
+
+                    <form role="form" name="signupForm" novalidate ng-submit="(SignupController.password == SignupController.repeatPassword) && signupForm.$valid && SignupController.signup(SignupController.email,SignupController.password)">
+                        <fieldset>
+
+                            <!-- Email field -->
+                            <div class="form-group" >
+                                <input class="form-control"  placeholder="E-mail *" name="mail" type="email" ng-model="SignupController.email" required autofocus/>
+                                <div ng-messages="signupForm.mail.$error">
+                                    <div ng-messages-include="errors/errors.html" ng-if="signupForm.$submitted"></div>
+                                </div>
+                            </div>
+
+                            <!-- Password field -->
+                            <div class="form-group">
+                                <input class="form-control"   translate translate-attr-placeholder="Password *" name="password" type="password" value="" ng-model="SignupController.password" required ng-minlength="6" />
+                                <div ng-messages="signupForm.password.$error">
+                                    <div ng-messages-include="errors/errors.html" ng-if="signupForm.$submitted"></div>
+                                </div>
+                            </div>
+
+                            <!-- Repeat password field -->
+                            <div class="form-group">
+                                <input class="form-control" translate translate-attr-placeholder="Repeat password *"  name="repeatPassword" type="password" value="" ng-model="SignupController.repeatPassword" required ng-minlength="6" />
+                                <div ng-messages="signupForm.repeatPassword.$error">
+                                    <div ng-messages-include="errors/errors.html" ng-if="signupForm.$submitted"></div>
+                                </div>
+
+                                <p ng-show="!(SignupController.password == SignupController.repeatPassword) && !signupForm.repeatPassword.$error.required && !signupForm.repeatPassword.$error.minlength && signupForm.$submitted" translate>Different password</p>
+
+                            </div>
+
+                            <!-- Sign up button -->
+                            <center>
+                                <button type="submit" class="btn btn-lg btn-success" translate>Create your account</button>
+                            </center>
+
+                            <!-- Sign in link -->
+                            <a href="#!/login">
+                                <button type="button" class="btn btn-link" click="#!/login" translate>Sign in</button>
+                            </a>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

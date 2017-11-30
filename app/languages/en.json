@@ -1,0 +1,12 @@
+{
+    "INVALID_CREDENTIALS": "Invalid email or/and password specified",
+    "USER_DENIED": "Your access was denied",
+    "UNKNOWN_ERROR": "An unknown error occurred. Please, retry later",
+    "INVALID_USER": "This user is not registered",
+    "EXISTING_IDENTITY": "This user already exists",
+    "permission_denied" : "you don't have permission to access the desired data",
+    "USER_DOESNT_EXIST" : "This user doesn't exist or his profil information are not complete",
+    "UNVERIFIED_IDENTITY" : "This account isn't verified",
+    "TOO_WEAK_PASSWORD" : "The password is not strong enough",
+    "LAST_ADMIN" : "This user is the last administrator of the space"
+}

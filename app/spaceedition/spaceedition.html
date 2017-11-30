@@ -1,0 +1,143 @@
+<div my-header></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading" translate>
+          Modify space
+        </div>
+
+        <!-- Successful Update Space Informations -->
+        <div class="alert alert-success" ng-hide="!spaceEditionController.alertSuccessSave">
+          <p translate>Space information saved with success</p>
+        </div>
+        <div class="alert alert-success" ng-hide="!spaceEditionController.alertSuccessAddCollaborator">
+          <p translate>Collaborator added with success</p>
+        </div>
+
+        <div class="alert alert-success" ng-hide="!spaceEditionController.alertSuccessChangeCollaboratorRule">
+          <p translate>Collaborator rule changed with success</p>
+        </div>
+
+        <div class="alert alert-success" ng-hide="!spaceEditionController.alertSuccessRemoveCollaborator">
+          <p translate>Collaborator removed with success</p>
+        </div>
+
+        <div class="alert alert-danger" ng-hide="!spaceEditionController.alertErrorSave">
+          <p style="display:inline" translate>Space information not saved : </p>
+          <p style="display:inline" translate>{{spaceEditionController.spaceUpdateError}}</p>
+        </div>
+
+        <div class="alert alert-danger" ng-hide="!spaceEditionController.alertErrorAddCollaborator ">
+          <p style="display:inline" translate>Collaborator not added : </p>
+          <p style="display:inline" translate>{{spaceEditionController.addCollaboratorError}}</p>
+        </div>
+
+        <div class="alert alert-danger" ng-hide="!spaceEditionController.alertErrorDuplicateAddCollaborator">
+          <p style="display:inline" translate>Collaborator not added : </p>
+          <p style="display:inline" translate>This collaborator is already added</p>
+        </div>
+
+        <div class="alert alert-danger" ng-hide="!spaceEditionController.alertErrorChangeCollaboratorRule">
+          <p style="display:inline" translate>Collaborator rule not changed : </p>
+          <p style="display:inline" translate>{{spaceEditionController.changeCollaboratorRuleError}}</p>
+        </div>
+
+        <div class="alert alert-danger" ng-hide="!spaceEditionController.alertErrorRemoveCollaborator">
+          <p style="display:inline" translate>Collaborator not removed : </p>
+          <p style="display:inline" translate>{{spaceEditionController.removeCollaboratorError}}</p>
+        </div>
+
+        <div class="panel-body">
+          <!-- Log in Form -->
+          <div class="row">
+            <div class="col-lg-6">
+              <form role="form" name="spaceForm" novalidate ng-submit="spaceForm.$valid && spaceEditionController.updateSpace(spaceEditionController.spaceName,spaceEditionController.spaceDescription) || spaceEdition.disableSaveData">
+
+                <fieldset>
+                  <div class="form-group">
+                    <label for="nameSpace" translate>Space name</label>
+                    <input name="nameSpace" type="text" class="form-control" ng-model="spaceEditionController.spaceName" ng-maxlength="30" ng-disabled="spaceEditionController.disableSaveData" required/>
+                    <div ng-messages="spaceForm.nameSpace.$error">
+                      <div ng-messages-include="errors/errors.html" ng-if="spaceForm.$submitted"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="descriptionSpace" translate>Space description</label>
+                    <textarea name="descriptionSpace" class="form-control" rows="5" ng-maxlength="300" ng-model="spaceEditionController.spaceDescription" ng-disabled="spaceEditionController.disableSaveData" style="overflow:auto;resize:none" required></textarea>
+                    <div ng-messages="spaceForm.descriptionSpace.$error">
+                      <div ng-messages-include="errors/errors.html" ng-if="spaceForm.$submitted"></div>
+                    </div>
+                  </div>
+
+                  <button type="button" class="btn btn-default btn-lg" ng-click="spaceEditionController.resetData()" ng-disabled="spaceEditionController.disableReset" ng-if="spaceEditionController.isAdmin" translate>Reset</button>
+
+                  <button type="submit" class="btn btn-success btn-lg pull-right" ng-if="spaceEditionController.isAdmin" translate>{{spaceEditionController.modify}}</button>
+                </fieldset>
+              </form>
+              <!-- <div style="margin-top:10%;">
+                <a href="" ng-hide="!spaceEditionController.isAdmin" ng-click="spaceEditionController.removeSpaceDefinitely(spaceEditionController.isAdmin)">
+                  <span translate>Delete the space definitely</span>
+                </a>
+              </div> -->
+            </div>
+            <div class="col-lg-6">
+              <div ng-if="spaceEditionController.isAdmin">
+                <form role="form" name="inviteForm" novalidate ng-submit="inviteForm.$valid && spaceEditionController.addCollaboratorConfirmation(spaceEditionController.uidToInvite,spaceEditionController.ruleProp.value)">
+                  <fieldset>
+
+                    <div class="col-lg-5">
+                      <div class="form-group">
+                        <label for="uidToInvite" translate>UID to invite</label>
+                        <input name="uidToInvite" type="text" ng-model="spaceEditionController.uidToInvite" class="form-control" ng-minlength="36" ng-maxlength="36" required/>
+                        <div ng-messages="inviteForm.uidToInvite.$error">
+                          <div ng-messages-include="errors/errors.html" ng-if="inviteForm.$submitted"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label for="rule" translate>Rule</label>
+                        <select class="form-control" ng-model="spaceEditionController.ruleProp.value" ng-options="v |translate for v in spaceEditionController.ruleProp.values"></select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-2" style="position: relative; margin-top: 15px; margin-left: 6%;">
+                      <button type="submit" class="btn btn-primary btn-lg pull-right" translate>Add</button>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+              <div class="col-lg-12">
+
+                <label translate>Collaborators list</label>
+                <ul class="list-group scrollable-menu">
+                  <li class="list-group-item" ng-repeat="collaboratorSpace in collaboratorsSpace">
+                    <h4>{{collaboratorSpace.name}} {{collaboratorSpace.surname}}</h4>
+                    <button ng-hide="!spaceEditionController.isAdmin" type="button" class="btn btn-danger" style="position: absolute; top: 10%; right : 5%;" ng-click="spaceEditionController.removeCollaboratorConfirmation(collaboratorSpace.id,spaceEditionController.selectedSpaceID,spaceEditionController.isAdmin)"
+                      translate>Remove</button>
+                    <p style="display:inline" translate>Rule</p>
+                    <p style="display:inline" translate> :</p>
+                    <p style="display:inline" ng-if="!spaceEditionController.isAdmin" translate> {{collaboratorSpace.role}}</p>
+                    <select ng-if="spaceEditionController.isAdmin" class="form-control" style="display:inline; position: relative;  width:40%;" ng-model="collaboratorSpace.role" ng-change="spaceEditionController.changeCollaboratorRuleConfirmation(collaboratorSpace.id,collaboratorSpace.role)"
+                      ng-options="v |translate for v in spaceEditionController.ruleProp.values"></select>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div style="margin-top:2%;">
+                <a href="" ng-hide="!spaceEditionController.isAdmin" ng-click="spaceEditionController.removeSpaceDefinitelyConfirmation(spaceEditionController.isAdmin)">
+                  <span translate>Delete the space definitely</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

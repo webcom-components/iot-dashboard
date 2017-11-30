@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <!-- FIXME improve : remove lot of "if" - make this generic  -->
+  <h3 class="modal-title" ng-if="$parent.popupToDo === 'changeCollaboratorRule'" translate>Confirmation of role change</h3>
+  <h3 class="modal-title" ng-if="$parent.popupToDo === 'removeCollaborator'" translate>Confirmation of deletion</h3>
+  <h3 class="modal-title" ng-if="$parent.popupToDo === 'addCollaborator'" translate>Confirmation of addition</h3>
+  <h3 class="modal-title" ng-if="$parent.popupToDo === 'removeSpaceDefinitely'" translate>Confirmation of permanent deletion</h3>
+  <h3 class="modal-title" ng-if="$parent.popupToDo === 'leaveSpace'" translate>Confirmation of leaving</h3>
+</div>
+<div class="modal-body">
+  <div ng-if="$parent.popupToDo === 'changeCollaboratorRule'" translate>
+    Do you confirm the role change of this collaborator ?
+  </div>
+  <div ng-if="$parent.popupToDo === 'removeCollaborator'" translate>
+    Do you confirm the deletion of this collaborator ?
+  </div>
+  <div ng-if="$parent.popupToDo === 'addCollaborator'" translate>
+    Do you confirm the addition of this collaborator ?
+  </div>
+  <div ng-if="$parent.popupToDo === 'removeSpaceDefinitely'" translate>
+    Do you confirm the permanent deletion of this space ?
+  </div>
+  <div ng-if="$parent.popupToDo === 'leaveSpace'" translate>
+    Do you really want to leave the space ?
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success pull-left" type="button" ng-click="closePopup()" translate>Cancel</button>
+  <button class="btn btn-danger" type="button" ng-click="popupValidate()" translate>Confirm</button>
+</div>

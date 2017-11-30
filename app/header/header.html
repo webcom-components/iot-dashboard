@@ -1,0 +1,49 @@
+<div id="wrapper">
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="container-fluid">
+      <a href="#"><img src="../images/iot-dashboard-webcom-logo.png" alt="IoT Dashboard WEBCOM" height="50" width="110"></a>
+      <a href="#!/{{HeaderController.spaceId}}/sensors" style="margin-left:7%;font-size:inherit;" ng-if="HeaderController.showConfigIcon==true" translate>Data sensors</a>
+      <ul class="nav navbar-top-links navbar-right">
+        <li class="dropdown" ng-if="HeaderController.showConfigIcon==true">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#!/{{HeaderController.spaceId}}/spaceedition" aria-expanded="false">
+                              <i class="fa fa-wrench fa-fw"></i>
+                          </a>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-home fa-fw">
+              </i> <i class="fa fa-caret-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li ng-repeat="userSpaceInfo in HeaderController.userSpaceInfos | limitTo: 4"><a href="#!/{{userSpaceInfo.id}}/sensors" ng-click="HeaderController.spaceEdition(userSpaceInfo.id)"><i class="fa fa-folder-open fa-fw"></i>
+                    {{userSpaceInfo.spaceName}}</a>
+            </li>
+            <div ng-if="HeaderController.userSpaceInfos.length > 4">
+              <li class="divider"></li>
+              <li><a href="#!/user"><i class="fa fa-th-list fa-fw" ></i><span translate>More</span></a>
+              </li>
+            </div>
+            <div ng-if="HeaderController.userSpaceInfos.length == 0">
+              <li><a href="#!/user"><i class="fa fa-warning fa-fw"></i><span translate>No space</span></a>
+              </li>
+            </div>
+
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user fa-fw">
+              </i> <i class="fa fa-caret-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#!/user"><i class="fa fa-user fa-fw"></i><span translate>User Profile</span></a>
+            </li>
+            <li class="divider"></li>
+            <li><a href="" ng-click='HeaderController.logout()'><i class="fa fa-sign-out fa-fw"></i><span translate>Log out</span></a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
+</div>
+<br>

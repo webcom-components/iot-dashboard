@@ -1,0 +1,92 @@
+{
+  "rules": {
+    "users": {
+      "$userId": {
+        ".read": "auth != null &&  auth.uid === $userId",
+        ".write": "auth != null &&  auth.uid === $userId",
+        "name": {
+          ".read": true,
+          ".validate": "newData.isString() && newData.val().length() <= 30"
+        },
+        "surname": {
+          ".read": true,
+          ".validate": "newData.isString() && newData.val().length() <= 30"
+        },
+        "email": {
+          ".validate": "auth.providerUid === newData.val()"
+        },
+        "prefLang": {
+          ".validate": "newData.isString() && newData.val().length() < 5"
+        },
+        "spaces": {
+          "$spaceId": {
+            ".write": "root.child('spaces').child($spaceId).child('settings').child('users').child(auth.uid).val().role === 'admin'",
+            "name": {
+              ".validate": "newData.isString() && newData.val().length() <= 30"
+            },
+            "description": {
+              ".validate": "newData.isString() && newData.val().length() <= 300"
+            }
+          }
+        }
+      }
+    },
+    "spaces": {
+      "$spaceId": {
+        ".read": "auth != null && (data.child('settings').child('users').hasChild(auth.uid) || newData.child('settings').child('users').hasChild(auth.uid))",
+        ".write": "auth != null && (!data.exists() || data.child('settings').child('users').child(auth.uid).val().role === 'admin')",
+        "settings": {
+          "users": {
+            "$userId": {
+              ".write": "(auth != null &&  auth.uid === $userId && newData.val() === null) || (!data.exists() && data.child('users').child(auth.uid).val().role === 'admin')",
+              "role": {
+                ".write": "auth != null &&  data.child('users').child(auth.uid).val().role === 'admin'"
+              }
+            }
+          }
+        },
+        "network": {
+          "$gtwId": {
+            ".read": true,
+            ".write": true,
+            ".validate": "newData.hasChild('type')",
+            "sensors": {
+              "$sensorId": {
+                ".validate": "newData.hasChildren(['type', 'name', 'description'])"
+              }
+            },
+            "actuators": {
+              "$actuatorId": {
+                ".validate": "newData.hasChildren(['type', 'name', 'description'])"
+              }
+            }
+          }
+        },
+        "lastValue": {
+          "$gtwId": {
+            ".read": true,
+            ".write": true,
+            "$sensorId": {
+              ".validate": "newData.hasChild('value')"
+            }
+          }
+        },
+        "history": {
+          "$gtwId": {
+            ".write": true
+          }
+        },
+        "actuators": {
+          "$gtwId": {
+            ".read": true,
+            ".write": true
+          }
+        }
+      }
+    },
+    "$other": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}
