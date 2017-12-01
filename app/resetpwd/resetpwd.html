@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="login-panel panel panel-default">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"translate>Password reset</h3>
+                </div>
+
+                <!-- Server Error Displays -->
+                <div class="alert alert-danger" ng-if="ResetPwdController.signupError!=null">
+                    <p translate>{{ResetPwdController.resetPwdError}}</p>
+                </div>
+
+                <div class="panel-body">
+
+                    <!-- Sign up Form -->
+
+                    <form role="form" name="resetPwdForm" novalidate ng-submit="(ResetPwdController.password == ResetPwdController.repeatPassword) && resetPwdForm.$valid && ResetPwdController.reset(ResetPwdController.email)">
+                        <fieldset>
+
+                            <!-- Email field -->
+                            <div class="form-group" >
+                                <input class="form-control"  placeholder="E-mail *" name="mail" type="email" ng-model="ResetPwdController.email" required autofocus/>
+                                <div ng-messages="resetPwdForm.mail.$error">
+                                    <div ng-messages-include="errors/errors.html" ng-if="resetPwdForm.$submitted"></div>
+                                </div>
+                            </div>
+
+
+                            <!-- ResetPwd button -->
+                            <center>
+                                <button type="submit" class="btn btn-lg btn-success" translate>Reset your password</button>
+                            </center>
+
+                            <!-- Sign in link -->
+                            <a href="#!/login">
+                                <button type="button" class="btn btn-link" click="#!/login" translate>Sign in</button>
+                            </a>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

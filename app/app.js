@@ -13,6 +13,7 @@ import './services/config-service.js'
 import './header/header.controller.js';
 import './login/login.controller.js';
 import './signup/signup.controller.js';
+import './resetpwd/resetpwd.controller.js';
 import './aftersignup/afterSignup.controller.js';
 import './components/version/version-directive.js';
 import './components/version/version.js';
@@ -32,6 +33,7 @@ var myApp = angular.module('myApp', [
   'myApp.header',
   'myApp.login',
   'myApp.signup',
+  'myApp.resetpwd',
   'myApp.aftersignup',
   'myApp.version',
   'myApp.user',
