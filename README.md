@@ -1,7 +1,7 @@
 # IoT Dashboard project
 
 This project is a first template using the Webcom tools in the field of IoT.
-This project contains a web application template.
+This project is an example of web application that uses webcom and angularjs together.
 
 ## Web application
 
