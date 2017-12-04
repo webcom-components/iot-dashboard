@@ -3,7 +3,7 @@
 var myConfigModule = angular.module('myConfigModule', []);
 myConfigModule.service('myConfigService', [function() {
     return {
-        // Change this variable !!!!!!
-      datasyncUri : 'https://io.datasync.orange.com/base/name-space'
+        //You may have to change "iot-dashboard" with your namespace
+      datasyncUri : 'https://io.datasync.orange.com/base/iot-dashboard'
     };
 }]);
